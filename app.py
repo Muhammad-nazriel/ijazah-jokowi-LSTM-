@@ -30,7 +30,7 @@ def predict_sentiment(text):
     cleaned = clean_text(text)
     seq = tokenizer.texts_to_sequences([cleaned])
     pad = pad_sequences(seq, maxlen=100)
-    pred = model.predict(pad)[0][0]
+    pred = model.predict(pad, batch_size=1)[0][0]
     return "positif" if pred >= 0.5 else "negatif"
 
 @app.route('/', methods=['GET', 'POST'])
