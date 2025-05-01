@@ -55,7 +55,13 @@ def index():
 
     # Membuat WordCloud
     all_text = ' '.join(df['cleaned'])
-    wordcloud = WordCloud(width=800, height=400, background_color='white').generate(all_text)
+    font_path = os.path.join('static', 'fonts')
+    wordcloud = WordCloud(
+    font_path=font_path,
+    width=600,
+    height=300,
+    background_color='white'
+).generate(all_text)
     wordcloud.to_file('static/wordcloud.png')
 
     # Jika form dikirim
@@ -71,6 +77,10 @@ def index():
 # Membuat folder 'static' jika belum ada
 if not os.path.exists('static'):
     os.makedirs('static')
+
+    if not os.path.exists('static/fonts'):
+      os.makedirs('static/fonts')
+
 
 @app.route('/download')
 def download():
