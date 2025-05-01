@@ -1,8 +1,13 @@
-Flask==2.3.2
-gunicorn==21.2.0
-numpy==1.23.5
-pandas==1.5.3
-scikit-learn==1.2.2
-tensorflow==2.11.0
-keras==2.11.0
-wordcloud==1.8.2.2
+pandas
+numpy
+scikit-learn
+tensorflow
+keras
+streamlit
+seaborn
+matplotlib
+Flask
+Gunicorn
+wordcloud
+setuptools>=57.0.0  # Tambahkan baris ini untuk memperbaiki masalah distutils
+
