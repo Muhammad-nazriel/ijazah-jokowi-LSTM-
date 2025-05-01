@@ -29,7 +29,7 @@ def predict_sentiment(text):
     load_resources()
     cleaned = clean_text(text)
     seq = tokenizer.texts_to_sequences([cleaned])
-    pad = pad_sequences(seq, maxlen=100)
+    pad = pad_sequences(seq, maxlen=MAX_LEN)
     pred = model.predict(pad, batch_size=1)[0][0]
     return "positif" if pred >= 0.5 else "negatif"
 
@@ -37,33 +37,34 @@ def predict_sentiment(text):
 def index():
     sentiment_result = None
     komentar_baru = ''
-    
+
     # Membaca data CSV
     df = pd.read_csv(os.path.join(os.getcwd(), 'data/data_youtube_ijazah_jokowi.csv'))
     df['cleaned'] = df['comment'].astype(str).apply(clean_text)
-    sentiments = []
-for text in df['cleaned']:
-    try:
-        pred = predict_sentiment(text)
-        sentiments.append(pred)
-    except Exception as e:
-        sentiments.append('error')
-        print(f"Error: {e}")
-        df['sentimen'] = sentiments
 
-    # Membuat WordCloud dan menyimpannya
+    # Prediksi sentimen untuk semua komentar
+    sentiments = []
+    for text in df['cleaned']:
+        try:
+            pred = predict_sentiment(text)
+            sentiments.append(pred)
+        except Exception as e:
+            sentiments.append('error')
+            print(f"Error: {e}")
+    df['sentimen'] = sentiments
+
+    # Membuat WordCloud
     all_text = ' '.join(df['cleaned'])
     wordcloud = WordCloud(width=800, height=400, background_color='white').generate(all_text)
-    
-    # Simpan WordCloud ke folder static
     wordcloud.to_file('static/wordcloud.png')
 
+    # Jika form dikirim
     if request.method == 'POST':
         komentar_baru = request.form['comment']
         sentiment_result = predict_sentiment(komentar_baru)
 
     return render_template('index.html',
-                           data=df[['platform','comment', 'timestamp', 'username', 'sentimen']],
+                           data=df[['platform', 'comment', 'timestamp', 'username', 'sentimen']],
                            hasil=sentiment_result,
                            komentar=komentar_baru)
 
