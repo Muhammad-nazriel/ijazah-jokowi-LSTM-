@@ -6,3 +6,4 @@ keras
 streamlit
 seaborn
 matplotlib
+Flask
