@@ -39,7 +39,7 @@ def index():
     komentar_baru = ''
 
     # Membaca data CSV
-    df = pd.read_csv(os.path.join(os.getcwd(), 'data/data_youtube_ijazah_jokowi.csv')).head(250)
+    df = pd.read_csv(os.path.join(os.getcwd(), 'data/data_youtube_ijazah_jokowi.csv')).head(50)
     df['cleaned'] = df['comment'].astype(str).apply(clean_text)
 
     # Prediksi sentimen untuk semua komentar
