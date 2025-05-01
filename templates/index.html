@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Analisis Komentar YouTube</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="text-center">Analisis Komentar YouTube: Ijazah Jokowi</h2>
+
+    <!-- Input Komentar Manual -->
+    <div class="card p-3 mb-4">
+        <h5>Analisis Sentimen Komentar Baru</h5>
+        <form action="/" method="POST">
+            <textarea name="comment" class="form-control mb-3" placeholder="Masukkan komentar YouTube di sini..." required></textarea>
+            <button type="submit" class="btn btn-success">Analisis Sentimen</button>
+        </form>
+        {% if sentiment_result %}
+            <div class="mt-3">
+                <strong>Sentimen:</strong> <span class="text-primary">{{ sentiment_result }}</span>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Tampilkan WordCloud -->
+    <div class="my-4">
+        <h5>Wordcloud Komentar</h5>
+        <img src="{{ url_for('static', filename='wordcloud.png') }}" class="img-fluid border rounded" alt="Wordcloud">
+    </div>
+
+    <!-- Tampilkan Hasil Tabel -->
+    <div class="my-4">
+        <h5>Hasil Analisis Komentar</h5>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Platform</th>
+                        <th>Komentar</th>
+                        <th>Waktu</th>
+                        <th>Username</th>
+                        <th>Sentimen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index, row in data.iterrows() %}
+                    <tr>
+                        <td>{{ row['platform'] }}</td>
+                        <td>{{ row['comment'] }}</td>
+                        <td>{{ row['timestamp'] }}</td>
+                        <td>{{ row['username'] }}</td>
+                        <td>{{ row['sentimen'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

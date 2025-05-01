@@ -1,0 +1,7 @@
+# Abaikan folder virtual environment
+venv/
+# Abaikan file cache Python
+__pycache__/
+*.pyc
+# Abaikan file environment (.env jika pakai API key/dll)
+.env
