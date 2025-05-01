@@ -55,7 +55,6 @@ def index():
 
     # Membuat WordCloud
     all_text = ' '.join(df['cleaned'])
-    font_path = os.path.join('static', 'fonts')
     wordcloud = WordCloud(
     font_path=font_path,
     width=600,
