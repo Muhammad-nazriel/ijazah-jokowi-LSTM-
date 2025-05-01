@@ -12,16 +12,24 @@ from preprocess import clean_text
 app = Flask(__name__)
 
 # Load Model dan Tokenizer
-model = load_model('model/model_lstm.h5')
-with open('model/tokenizer.pkl', 'rb') as f:
-    tokenizer = pickle.load(f)
+model = None
+tokenizer = None
+
+def load_resources():
+    global model, tokenizer
+    if model is None:
+        model = load_model('model/model_lstm.h5')
+    if tokenizer is None:
+        with open('model/tokenizer.pkl', 'rb') as f:
+            tokenizer = pickle.load(f)
 
 MAX_LEN = 100
 
 def predict_sentiment(text):
+    load_resources()
     cleaned = clean_text(text)
     seq = tokenizer.texts_to_sequences([cleaned])
-    pad = pad_sequences(seq, maxlen=MAX_LEN)
+    pad = pad_sequences(seq, maxlen=100)
     pred = model.predict(pad)[0][0]
     return "positif" if pred >= 0.5 else "negatif"
 
