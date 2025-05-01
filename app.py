@@ -41,7 +41,15 @@ def index():
     # Membaca data CSV
     df = pd.read_csv(os.path.join(os.getcwd(), 'data/data_youtube_ijazah_jokowi.csv'))
     df['cleaned'] = df['comment'].astype(str).apply(clean_text)
-    df['sentimen'] = df['cleaned'].apply(predict_sentiment)
+    sentiments = []
+for text in df['cleaned']:
+    try:
+        pred = predict_sentiment(text)
+        sentiments.append(pred)
+    except Exception as e:
+        sentiments.append('error')
+        print(f"Error: {e}")
+df['sentimen'] = sentiments
 
     # Membuat WordCloud dan menyimpannya
     all_text = ' '.join(df['cleaned'])
