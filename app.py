@@ -49,7 +49,7 @@ for text in df['cleaned']:
     except Exception as e:
         sentiments.append('error')
         print(f"Error: {e}")
-df['sentimen'] = sentiments
+        df['sentimen'] = sentiments
 
     # Membuat WordCloud dan menyimpannya
     all_text = ' '.join(df['cleaned'])
